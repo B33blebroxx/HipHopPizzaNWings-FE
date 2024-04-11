@@ -7,7 +7,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { checkUser } from '../auth';
+import { checkUser, registerUser } from '../auth';
 import { firebase } from '../client';
 
 const AuthContext = createContext();
@@ -36,8 +36,14 @@ const AuthProvider = (props) => {
         setOAuthUser(fbUser);
         checkUser(fbUser.uid).then((gamerInfo) => {
           let userObj = {};
-          if ('null' in gamerInfo) {
-            userObj = gamerInfo;
+          if (gamerInfo && gamerInfo.message === 'User not registered') {
+            const userInfo = {
+              uid: fbUser.uid,
+            };
+            registerUser(userInfo).then((registrationResponse) => {
+              userObj = { fbUser, uid: fbUser.uid, ...registrationResponse };
+              setUser(userObj);
+            }).catch((error) => console.error('Registration failed', error));
           } else {
             userObj = { fbUser, uid: fbUser.uid, ...gamerInfo };
           }
