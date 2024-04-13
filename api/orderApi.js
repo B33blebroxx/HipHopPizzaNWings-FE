@@ -18,7 +18,7 @@ const getAllOrders = () => new Promise((resolve, reject) => {
     }).catch(reject);
 });
 
-const getSingleOrder = (id) => new Promise((resolve, reject) => {
+const getOrderDetails = (id) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/orders/${id}`, {
     method: 'GET',
     headers: {
@@ -30,6 +30,18 @@ const getSingleOrder = (id) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const getOrderItems = (id) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/orders/${id}/items`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
+
 export {
-  getAllOrders, getSingleOrder,
+  getAllOrders, getOrderDetails, getOrderItems,
 };
