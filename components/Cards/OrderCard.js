@@ -14,7 +14,7 @@ export default function OrderCard({ orderObj }) {
         <Card.Text className="card-text">Order Status: {orderObj.isClosed ? (
           <p> Closed </p>) : <p> Open </p>}
         </Card.Text>
-        <Card.Footer><Button><Link href={`orders/${orderObj.id}`}>Details</Link></Button></Card.Footer>
+        <Card.Footer><Button><Link href={`/order/${orderObj.id}`}>Details</Link></Button></Card.Footer>
       </Card.Body>
     </Card>
   );
