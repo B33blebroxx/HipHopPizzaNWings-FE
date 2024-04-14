@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
+import Link from 'next/link';
 import { deleteOrder, getOrderDetails, getOrderItems } from '../../api/orderApi';
 import OrderDetailsCard from '../../components/Cards/OrderDetailsCard';
 import OrderItemCard from '../../components/Cards/OrderItemCard';
@@ -13,7 +14,7 @@ export default function ViewOrderDetails() {
   const isClosed = order.isClosed === true;
   const deleteOrderPrompt = () => {
     if (window.confirm('Delete this order?')) {
-      deleteOrder(order.id).then(router.push('/order/orders'));
+      deleteOrder(order.id).then(() => router.push('/order/orders'));
     }
   };
 
@@ -26,7 +27,7 @@ export default function ViewOrderDetails() {
     <>
       <div className="card-container">
         <OrderDetailsCard orderObj={order} onUpdate={setOrder} /><br />
-        <Button variant="danger" onClick={deleteOrderPrompt}>Delete Order</Button>{!isClosed && (<Button variant="dark">Close Order</Button>)}
+        <Link href={`/order/edit/${order.id}`} passHref><Button>Edit Order Details</Button></Link><Button variant="danger" onClick={deleteOrderPrompt}>Delete Order</Button>{!isClosed && (<Button variant="dark">Close Order</Button>)}
       </div><br />
       <hr
         style={{

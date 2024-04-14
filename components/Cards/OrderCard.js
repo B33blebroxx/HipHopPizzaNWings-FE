@@ -11,8 +11,7 @@ export default function OrderCard({ orderObj }) {
         <Card.Text className="card-text">Phone Number: {orderObj.phoneNumber}</Card.Text>
         <Card.Text className="card-text">Email: {orderObj.email}</Card.Text>
         <Card.Text className="card-text">Order Type: {orderObj.orderType.type}</Card.Text>
-        <Card.Text className="card-text">Order Status: {orderObj.isClosed ? (
-          <p> Closed </p>) : <p> Open </p>}
+        <Card.Text className="card-text">Order Status: {orderObj.isClosed ? 'Closed' : 'Open'}
         </Card.Text>
         <Card.Footer><Button><Link href={`/order/${orderObj.id}`}>Details</Link></Button></Card.Footer>
       </Card.Body>
