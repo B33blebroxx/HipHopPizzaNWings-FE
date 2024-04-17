@@ -103,7 +103,7 @@ export default function ViewOrderDetails() {
         {orderItems.map((orderItem) => (
           <OrderItemCard key={orderItem.orderItemId} orderItemObj={orderItem} isOrderClosed={isClosed} onDelete={handleDeleteItem} onUpdate={setOrderItems} />
         ))}<br /><br />
-        <strong>Total: ${orderTotal.subTotal}.00</strong>
+        <strong>Order Total: ${orderTotal.subTotal}.00</strong>
       </div>
       {!isClosed && (
         <div id="add-item-button">
