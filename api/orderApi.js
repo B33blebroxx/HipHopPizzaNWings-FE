@@ -89,6 +89,36 @@ const closeOrder = (orderId, payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const getRevenue = () => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/revenue`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data) {
+        resolve((data));
+      } else {
+        resolve({});
+      }
+    })
+    .catch(reject);
+});
+
+const getOrderTotal = (id) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/order/${id}/total`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
+
 export {
-  getAllOrders, getOrderDetails, deleteOrder, createOrder, updateOrder, getOrderTypes, closeOrder,
+  getAllOrders, getOrderDetails, deleteOrder, createOrder, updateOrder, getOrderTypes, closeOrder, getRevenue, getOrderTotal,
 };

@@ -15,9 +15,10 @@ function Home() {
       }}
     >
       <h1>Hello {user.fbUser.displayName}! </h1>
-      <p>Click the button below to logout!</p>
-      <Link passHref href="/order/orders"><Button variant="info">Orders</Button></Link>
+      <p>Click the button below to logout!</p><br />
+      <Link passHref href="/order/orders"><Button variant="info">Orders</Button></Link><br /><br />
       <Link href="/order/new" passHref><Button variant="primary">Create New Order</Button></Link><br /><br />
+      <Link href="/revenue" passHref><Button variant="secondary">Revenue</Button></Link><br /><br />
     </div>
   );
 }
