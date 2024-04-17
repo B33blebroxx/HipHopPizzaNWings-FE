@@ -3,6 +3,8 @@ import OrderForm from '../../components/Forms/OrderForm';
 
 export default function CreateOrder() {
   return (
-    <OrderForm />
+    <div className="card-container">
+      <OrderForm />
+    </div>
   );
 }
