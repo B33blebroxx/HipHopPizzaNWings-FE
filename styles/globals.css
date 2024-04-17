@@ -20,3 +20,8 @@ a {
 body {
   background-color: #88effd;
 }
+
+.modal-dialog {
+  display: flex;
+  align-items: center;
+}

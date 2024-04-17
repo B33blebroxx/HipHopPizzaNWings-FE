@@ -1,14 +1,20 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Card, Modal } from 'react-bootstrap';
 import Link from 'next/link';
-import { deleteOrder, getOrderDetails, getOrderItems } from '../../api/orderApi';
+import { deleteOrder, getOrderDetails } from '../../api/orderApi';
 import OrderDetailsCard from '../../components/Cards/OrderDetailsCard';
 import OrderItemCard from '../../components/Cards/OrderItemCard';
+import { getOrderItems, addItemToOrder, removeItemFromOrder } from '../../api/orderItemsApi';
+import getItems from '../../api/itemsApi';
+import Spinbox from '../../components/Spinbox';
 
 export default function ViewOrderDetails() {
+  const [showModal, setShowModal] = useState(false);
   const [order, setOrder] = useState({});
   const [orderItems, setOrderItems] = useState([]);
+  const [availableItems, setAvailableItems] = useState([]);
+  const [itemQuantity, setItemQuantity] = useState({});
   const router = useRouter();
   const { id } = router.query;
   const isClosed = order.isClosed === true;
@@ -21,11 +27,62 @@ export default function ViewOrderDetails() {
   useEffect(() => {
     getOrderDetails(id).then(setOrder);
     getOrderItems(id).then(setOrderItems);
-  }, [order.id]);
+    getItems().then((items) => {
+      setAvailableItems(items);
+    });
+  }, [id]);
+
+  useEffect(() => {
+    if (showModal) {
+      const initialCounts = {};
+      availableItems.forEach((item) => {
+        initialCounts[item.id] = 0; // Reset count to zero
+      });
+      setItemQuantity(initialCounts);
+    }
+  }, [showModal, availableItems]);
+
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
+  const handleQuantityChange = (itemId, newQuantity) => {
+    setItemQuantity((prevState) => ({ ...prevState, [itemId]: newQuantity }));
+  };
+
+  const handleDeleteItem = (orderItemId) => {
+    removeItemFromOrder(orderItemId)
+      .then(() => {
+        getOrderItems(id).then((newItems) => setOrderItems(newItems));
+      });
+  };
+
+  const handleSaveChanges = () => {
+    availableItems.forEach((item) => {
+      const quantity = itemQuantity[item.id];
+      if (quantity > 0) {
+        const addPromises = [];
+        for (let i = 0; i < quantity; i++) {
+          const payload = {
+            orderId: id,
+            itemId: item.id,
+          };
+          addPromises.push(addItemToOrder(payload));
+        }
+        Promise.all(addPromises)
+          .then(() => {
+            getOrderItems(id).then(setOrderItems);
+          })
+          .catch((error) => {
+            console.error('Error adding items:', error);
+          });
+      }
+    });
+    handleCloseModal();
+  };
 
   return (
     <>
-      <div className="card-container">
+      <div className="order-details">
         <OrderDetailsCard orderObj={order} onUpdate={setOrder} /><br />
         <Link href={`/order/edit/${order.id}`} passHref><Button>Edit Order Details</Button></Link><Button variant="danger" onClick={deleteOrderPrompt}>Delete Order</Button>{!isClosed && (<Button variant="dark">Close Order</Button>)}
       </div><br />
@@ -37,16 +94,45 @@ export default function ViewOrderDetails() {
           height: '1px',
         }}
       /><br />
-      {!isClosed && (
-        <div id="add-item-button">
-          <Button variant="primary">Add Item</Button>
-        </div>
-      )}<br /><br />
       <div className="card-container">
         {orderItems.map((orderItem) => (
-          <OrderItemCard key={orderItem.id} orderItemObj={orderItem} onUpdate={setOrderItems} />
+          <OrderItemCard key={orderItem.orderItemId} orderItemObj={orderItem} isOrderClosed={isClosed} onDelete={handleDeleteItem} onUpdate={setOrderItems} />
         ))}
       </div>
+      {!isClosed && (
+        <div id="add-item-button">
+          <Button variant="primary" onClick={handleShowModal}>Add Item</Button>
+        </div>
+      )}
+      <Modal
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        show={showModal}
+        onHide={handleCloseModal}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Add Items to Order</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {availableItems.map((item) => (
+            <Card key={item.id} className="mb-2">
+              <Card.Body>
+                <Card.Title>{item.name}</Card.Title>
+                <Card.Text>Price: {item.price}</Card.Text>
+                <Spinbox
+                  value={itemQuantity[item.id] || 0}
+                  onChange={(newQuantity) => handleQuantityChange(item.id, newQuantity)}
+                />
+              </Card.Body>
+            </Card>
+          ))}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>Close</Button>
+          <Button variant="primary" onClick={handleSaveChanges}>Save Changes</Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }

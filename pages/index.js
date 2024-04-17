@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Button } from 'react-bootstrap';
 import { useAuth } from '../utils/context/authContext';
 
 function Home() {
@@ -15,7 +16,8 @@ function Home() {
     >
       <h1>Hello {user.fbUser.displayName}! </h1>
       <p>Click the button below to logout!</p>
-      <Link passHref href="/order/orders">Orders</Link>
+      <Link passHref href="/order/orders"><Button variant="info">Orders</Button></Link>
+      <Link href="/order/new" passHref><Button variant="primary">Create New Order</Button></Link><br /><br />
     </div>
   );
 }

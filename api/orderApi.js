@@ -30,18 +30,6 @@ const getOrderDetails = (id) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getOrderItems = (id) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/orders/${id}/items`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => resolve(data))
-    .catch(reject);
-});
-
 const deleteOrder = (id) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/orders/${id}`, {
     method: 'DELETE',
@@ -89,5 +77,5 @@ const getOrderTypes = () => new Promise((resolve, reject) => {
 });
 
 export {
-  getAllOrders, getOrderDetails, getOrderItems, deleteOrder, createOrder, updateOrder, getOrderTypes,
+  getAllOrders, getOrderDetails, deleteOrder, createOrder, updateOrder, getOrderTypes,
 };

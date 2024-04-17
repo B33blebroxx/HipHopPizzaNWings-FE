@@ -1,12 +1,17 @@
 import PropTypes from 'prop-types';
-import { Card } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 
-export default function OrderItemCard({ orderItemObj }) {
+export default function OrderItemCard({ orderItemObj, isOrderClosed, onDelete }) {
   return (
     <Card className="orderitem-card">
       <Card.Body>
         <Card.Title>{orderItemObj.name}</Card.Title>
-        <Card.Text>Price: {orderItemObj.price}</Card.Text>
+        <Card.Text>Price: ${orderItemObj.price.toFixed(2)}</Card.Text>
+        {!isOrderClosed && (
+          <Button variant="danger" onClick={() => onDelete(orderItemObj?.orderItemId)}>
+            Delete
+          </Button>
+        )}
       </Card.Body>
     </Card>
   );
@@ -14,9 +19,11 @@ export default function OrderItemCard({ orderItemObj }) {
 
 OrderItemCard.propTypes = {
   orderItemObj: PropTypes.shape({
-    id: PropTypes.number,
-    orderId: PropTypes.number,
-    name: PropTypes.string,
-    price: PropTypes.number,
+    orderItemId: PropTypes.number.isRequired,
+    orderId: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
   }).isRequired,
+  isOrderClosed: PropTypes.bool.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
