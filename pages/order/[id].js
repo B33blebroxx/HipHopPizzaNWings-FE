@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Button, Card, Modal } from 'react-bootstrap';
 import Link from 'next/link';
-import { deleteOrder, getOrderDetails } from '../../api/orderApi';
+import { deleteOrder, getOrderDetails, getOrderTotal } from '../../api/orderApi';
 import OrderDetailsCard from '../../components/Cards/OrderDetailsCard';
 import OrderItemCard from '../../components/Cards/OrderItemCard';
 import { getOrderItems, addItemToOrder, removeItemFromOrder } from '../../api/orderItemsApi';
@@ -15,6 +15,7 @@ export default function ViewOrderDetails() {
   const [orderItems, setOrderItems] = useState([]);
   const [availableItems, setAvailableItems] = useState([]);
   const [itemQuantity, setItemQuantity] = useState({});
+  const [orderTotal, setOrderTotal] = useState({ subTotal: 0, total: 0, tip: 0 });
   const router = useRouter();
   const { id } = router.query;
   const isClosed = order.isClosed === true;
@@ -31,6 +32,10 @@ export default function ViewOrderDetails() {
       setAvailableItems(items);
     });
   }, [id]);
+
+  useEffect(() => {
+    getOrderTotal(id)?.then(setOrderTotal);
+  }, [orderTotal]);
 
   useEffect(() => {
     if (showModal) {
@@ -97,7 +102,8 @@ export default function ViewOrderDetails() {
       <div className="card-container">
         {orderItems.map((orderItem) => (
           <OrderItemCard key={orderItem.orderItemId} orderItemObj={orderItem} isOrderClosed={isClosed} onDelete={handleDeleteItem} onUpdate={setOrderItems} />
-        ))}
+        ))}<br /><br />
+        <strong>Total: ${orderTotal.subTotal}.00</strong>
       </div>
       {!isClosed && (
         <div id="add-item-button">
