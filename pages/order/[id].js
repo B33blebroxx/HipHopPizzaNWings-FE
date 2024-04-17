@@ -84,7 +84,7 @@ export default function ViewOrderDetails() {
     <>
       <div className="order-details">
         <OrderDetailsCard orderObj={order} onUpdate={setOrder} /><br />
-        <Link href={`/order/edit/${order.id}`} passHref><Button>Edit Order Details</Button></Link><Button variant="danger" onClick={deleteOrderPrompt}>Delete Order</Button>{!isClosed && (<Button variant="dark">Close Order</Button>)}
+        <Link href={`/order/edit/${order.id}`} passHref><Button>Edit Order Details</Button></Link><Button variant="danger" onClick={deleteOrderPrompt}>Delete Order</Button>{!isClosed && (<Link href={`/order/payment/${router.query.id}`} passHref><Button variant="dark">Close Order</Button></Link>)}
       </div><br />
       <hr
         style={{

@@ -76,6 +76,19 @@ const getOrderTypes = () => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const closeOrder = (orderId, payload) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/order/${orderId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((response) => response.json())
+    .then(resolve)
+    .catch(reject);
+});
+
 export {
-  getAllOrders, getOrderDetails, deleteOrder, createOrder, updateOrder, getOrderTypes,
+  getAllOrders, getOrderDetails, deleteOrder, createOrder, updateOrder, getOrderTypes, closeOrder,
 };
