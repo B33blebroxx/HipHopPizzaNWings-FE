@@ -44,10 +44,10 @@ export default function ViewOrderDetails() {
   }, [showModal, availableItems]);
 
   useEffect(() => {
-    if (!order.id) {
+    if (order.id) {
       getOrderTotal(id)?.then(setOrderTotal);
     }
-  }, [orderTotal]);
+  }, [orderTotal.subTotal]);
 
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
@@ -104,7 +104,8 @@ export default function ViewOrderDetails() {
       <div className="card-container">
         {orderItems.map((orderItem) => (
           <OrderItemCard key={orderItem.orderItemId} orderItemObj={orderItem} isOrderClosed={isClosed} onDelete={handleDeleteItem} onUpdate={setOrderItems} />
-        ))}<br /><br />
+        ))}<br />
+        <Card.Text className="subtotal"><strong>Order SubTotal: ${orderTotal.subTotal}.00</strong></Card.Text><br /><br />
       </div>
       {!isClosed && (
         <div id="add-item-button">
@@ -130,8 +131,7 @@ export default function ViewOrderDetails() {
                 <Spinbox
                   value={itemQuantity[item.id] || 0}
                   onChange={(newQuantity) => handleQuantityChange(item.id, newQuantity)}
-                /><br />
-                <Card.Text><strong>Order SubTotal: ${orderTotal.subTotal}.00</strong></Card.Text>
+                />
               </Card.Body>
             </Card>
           ))}
