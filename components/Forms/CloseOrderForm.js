@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { Button, Card, Form } from 'react-bootstrap';
 import { useRouter } from 'next/router';
-import { closeOrder, getOrderDetails } from '../../api/orderApi';
+import { closeOrder, getOrderDetails, getOrderTotal } from '../../api/orderApi';
 
 const initialState = {
   isClosed: true,
@@ -11,13 +11,21 @@ const initialState = {
 
 export default function CloseOrderForm({ orderObj }) {
   const [formData, setFormData] = useState(initialState);
+  const [orderTotal, setOrderTotal] = useState({ subTotal: 0, total: 0, tip: 0 });
   const router = useRouter();
   const { id: orderId } = router.query;
+
   useEffect(() => {
     if (orderObj.id) {
       getOrderDetails(orderObj.id).then(setFormData);
     }
   }, [orderObj]);
+
+  useEffect(() => {
+    if (!orderObj.isClosed) {
+      getOrderTotal(orderId)?.then(setOrderTotal);
+    }
+  }, [orderTotal]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,7 +40,6 @@ export default function CloseOrderForm({ orderObj }) {
     e.preventDefault();
     const tip = parseFloat(formData.tip);
     const updatedFormData = { ...formData, tip };
-    console.log(updatedFormData, orderId);
     closeOrder(orderId, updatedFormData)
       .then(() => {
         router.push('/order/orders');
@@ -44,6 +51,7 @@ export default function CloseOrderForm({ orderObj }) {
       <Card>
         <Card.Body>
           <Card.Title>Order Close</Card.Title>
+          <Card.Text><strong>Order SubTotal: ${orderTotal.subTotal}.00</strong></Card.Text>
         </Card.Body>
         <Card.Body>
           <Form onSubmit={handleSubmit}>
