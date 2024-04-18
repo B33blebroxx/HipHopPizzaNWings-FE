@@ -36,7 +36,12 @@ const deleteOrder = (id) => new Promise((resolve, reject) => {
     headers: {
       'Content-Type': 'application/json',
     },
-  }).then((response) => response.json())
+  }).then((response) => {
+    if (response.ok) { // Checks if status code is in the range 200-299
+      return response.json().catch(() => resolve({})); // Handles empty or non-JSON responses gracefully
+    }
+    throw new Error('Network response was not ok.');
+  })
     .then(resolve)
     .catch(reject);
 });

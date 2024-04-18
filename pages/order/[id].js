@@ -34,18 +34,20 @@ export default function ViewOrderDetails() {
   }, [id]);
 
   useEffect(() => {
-    getOrderTotal(id)?.then(setOrderTotal);
-  }, [orderTotal]);
-
-  useEffect(() => {
     if (showModal) {
       const initialCounts = {};
       availableItems.forEach((item) => {
-        initialCounts[item.id] = 0; // Reset count to zero
+        initialCounts[item.id] = 0;
       });
       setItemQuantity(initialCounts);
     }
   }, [showModal, availableItems]);
+
+  useEffect(() => {
+    if (!order.id) {
+      getOrderTotal(id)?.then(setOrderTotal);
+    }
+  }, [orderTotal]);
 
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
@@ -103,7 +105,6 @@ export default function ViewOrderDetails() {
         {orderItems.map((orderItem) => (
           <OrderItemCard key={orderItem.orderItemId} orderItemObj={orderItem} isOrderClosed={isClosed} onDelete={handleDeleteItem} onUpdate={setOrderItems} />
         ))}<br /><br />
-        <strong>Order SubTotal: ${orderTotal.subTotal}.00</strong>
       </div>
       {!isClosed && (
         <div id="add-item-button">
@@ -129,7 +130,8 @@ export default function ViewOrderDetails() {
                 <Spinbox
                   value={itemQuantity[item.id] || 0}
                   onChange={(newQuantity) => handleQuantityChange(item.id, newQuantity)}
-                />
+                /><br />
+                <Card.Text><strong>Order SubTotal: ${orderTotal.subTotal}.00</strong></Card.Text>
               </Card.Body>
             </Card>
           ))}
