@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { closeOrder, getOrderDetails, getOrderTotal } from '../../api/orderApi';
 
 const initialState = {
-  isClosed: true,
+  isClosed: false,
   tip: 0,
 };
 
@@ -22,10 +22,11 @@ export default function CloseOrderForm({ orderObj }) {
   }, [orderObj]);
 
   useEffect(() => {
-    if (!orderObj.isClosed) {
+    if (orderObj.isClosed === false) {
       getOrderTotal(orderId)?.then(setOrderTotal);
     }
-  }, [orderTotal]);
+    console.log(orderObj);
+  }, [orderTotal.subTotal]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,7 +52,7 @@ export default function CloseOrderForm({ orderObj }) {
       <Card>
         <Card.Body>
           <Card.Title>Order Close</Card.Title>
-          <Card.Text><strong>Order SubTotal: ${orderTotal.subTotal}.00</strong></Card.Text>
+          <Card.Text className="subtotal"><strong>Order SubTotal: ${orderTotal.subTotal}.00</strong></Card.Text>
         </Card.Body>
         <Card.Body>
           <Form onSubmit={handleSubmit}>
