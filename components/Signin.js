@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 import { signIn } from '../utils/auth';
 
 function Signin() {
@@ -17,11 +17,13 @@ function Signin() {
         paddingBlock: '0 5rem',
       }}
     >
-      <h1>Hi there!</h1>
-      <p>Click the button below to login!</p>
-      <Button type="button" size="lg" className="copy-btn" onClick={signIn}>
-        Sign In
-      </Button>
+      <Card className="card">
+        <h1>Hi there!</h1>
+        <p>Click the button below to login!</p>
+        <Button type="button" size="lg" className="copy-btn" onClick={signIn}>
+          Sign In
+        </Button>
+      </Card>
     </div>
   );
 }
