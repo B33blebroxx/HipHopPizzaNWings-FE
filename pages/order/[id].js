@@ -91,7 +91,7 @@ export default function ViewOrderDetails() {
     <>
       <div className="text-center w-auto">
         <OrderDetailsCard orderObj={order} onUpdate={setOrder} /><br />
-        <Button variant="danger" onClick={deleteOrderPrompt}>Delete Order</Button>{!isClosed && (<><Link href={`/order/edit/${order.id}`} passHref><Button>Edit Order Details</Button></Link><Link href={`/order/payment/${router.query.id}`} passHref><Button variant="dark">Close Order</Button></Link></>)}
+        <Button variant="danger" onClick={deleteOrderPrompt}>Delete Order</Button>{!isClosed && (<><Link href={`/order/edit/${order.id}`} passHref><Button variant="dark">Edit Order Details</Button></Link><Link href={`/order/payment/${router.query.id}`} passHref><Button variant="warning">Close Order</Button></Link></>)}
       </div><br />
       <hr
         style={{
@@ -109,7 +109,7 @@ export default function ViewOrderDetails() {
       <Card.Text className="subtotal"><strong>Order SubTotal: ${orderTotal.subTotal}.00</strong></Card.Text><br /><br />
       {!isClosed && (
         <div id="add-item-button">
-          <Button variant="outline-primary" onClick={handleShowModal}>Add Item</Button>
+          <Button variant="dark" onClick={handleShowModal}>Add Item</Button>
         </div>
       )}
       <Modal
