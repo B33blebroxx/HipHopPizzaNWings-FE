@@ -26,7 +26,7 @@ function Home() {
           alignItems: 'center',
         }}
       >
-        <h1>Hello {user.fbUser.displayName}! </h1>
+        <h1>Hello {user.fbUser.displayName}! </h1><br /><br />
         <Link passHref href="/order/orders"><Button variant="outline-light">Orders</Button></Link><br /><br />
         <Link href="/order/new" passHref><Button variant="outline-light">Create New Order</Button></Link><br /><br />
         <Link href="/revenue" passHref><Button variant="outline-light">Revenue</Button></Link><br /><br />
