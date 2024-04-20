@@ -13,7 +13,7 @@ export default function OrderCard({ orderObj }) {
         <Card.Text className="card-text">Order Type: {orderObj.orderType.type}</Card.Text>
         <Card.Text className="card-text">Order Status: {orderObj.isClosed ? 'Closed' : 'Open'}
         </Card.Text>
-        <Card.Footer><Button><Link href={`/order/${orderObj.id}`}>Details</Link></Button></Card.Footer>
+        <Card.Footer><Button variant="outline-light"><Link href={`/order/${orderObj.id}`}>Details</Link></Button></Card.Footer>
       </Card.Body>
     </Card>
   );

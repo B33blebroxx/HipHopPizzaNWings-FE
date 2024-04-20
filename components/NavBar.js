@@ -7,14 +7,16 @@ import {
   Nav,
   Button,
 } from 'react-bootstrap';
+import Image from 'next/image';
 import { signOut } from '../utils/auth';
+import smallLogo from '../assets/logo.png';
 
 export default function NavBar() {
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <Navbar id="navbar" collapseOnSelect expand="lg">
       <Container>
         <Link passHref href="/">
-          <Navbar.Brand>CHANGE ME</Navbar.Brand>
+          <Navbar.Brand><Image width={65} height={65} layout="fixed" alt="logo" id="nav-logo" src={smallLogo} /></Navbar.Brand>
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -26,7 +28,7 @@ export default function NavBar() {
             <Link passHref href="/order/orders">
               <Nav.Link>Orders</Nav.Link>
             </Link>
-            <Button variant="danger" onClick={signOut}>
+            <Button variant="outline-danger" onClick={signOut}>
               Sign Out
             </Button>
           </Nav>

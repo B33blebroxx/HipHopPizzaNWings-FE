@@ -44,10 +44,10 @@ export default function ViewOrderDetails() {
   }, [showModal, availableItems]);
 
   useEffect(() => {
-    if (order.id) {
+    if (order.id !== null) {
       getOrderTotal(id)?.then(setOrderTotal);
     }
-  }, [orderTotal.subTotal]);
+  }, [orderTotal]);
 
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
@@ -89,7 +89,7 @@ export default function ViewOrderDetails() {
 
   return (
     <>
-      <div className="order-details">
+      <div className="text-center w-auto">
         <OrderDetailsCard orderObj={order} onUpdate={setOrder} /><br />
         <Link href={`/order/edit/${order.id}`} passHref><Button>Edit Order Details</Button></Link><Button variant="danger" onClick={deleteOrderPrompt}>Delete Order</Button>{!isClosed && (<Link href={`/order/payment/${router.query.id}`} passHref><Button variant="dark">Close Order</Button></Link>)}
       </div><br />
@@ -105,8 +105,8 @@ export default function ViewOrderDetails() {
         {orderItems.map((orderItem) => (
           <OrderItemCard key={orderItem.orderItemId} orderItemObj={orderItem} isOrderClosed={isClosed} onDelete={handleDeleteItem} onUpdate={setOrderItems} />
         ))}<br />
-        <Card.Text className="subtotal"><strong>Order SubTotal: ${orderTotal.subTotal}.00</strong></Card.Text><br /><br />
-      </div>
+      </div><br />
+      <Card.Text className="subtotal"><strong>Order SubTotal: ${orderTotal.subTotal}.00</strong></Card.Text><br /><br />
       {!isClosed && (
         <div id="add-item-button">
           <Button variant="primary" onClick={handleShowModal}>Add Item</Button>
