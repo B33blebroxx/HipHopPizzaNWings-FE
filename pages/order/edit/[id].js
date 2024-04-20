@@ -12,5 +12,9 @@ export default function EditOrder() {
     getOrderDetails(id).then(setEditOrder);
   }, [id]);
 
-  return (<OrderForm orderObj={editOrder} />);
+  return (
+    <div className="card-container">
+      <OrderForm orderObj={editOrder} />
+    </div>
+  );
 }

@@ -46,7 +46,7 @@ export default function OrderForm({ orderObj }) {
 
   return (
     <Card className="form-card text-center" style={{ width: '350px' }}>
-      <Card.Title className="card-title">{orderObj.id ? 'Update' : 'Create New'} Order</Card.Title>
+      <Card.Title>{orderObj.id ? 'Update' : 'Create New'} Order</Card.Title>
       <Card.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="customerName">
