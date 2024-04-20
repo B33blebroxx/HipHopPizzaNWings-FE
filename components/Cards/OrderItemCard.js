@@ -8,7 +8,7 @@ export default function OrderItemCard({ orderItemObj, isOrderClosed, onDelete })
         <Card.Title>{orderItemObj.name}</Card.Title>
         <Card.Text>Price: ${orderItemObj.price.toFixed(2)}</Card.Text>
         {!isOrderClosed && (
-          <Button variant="danger" onClick={() => onDelete(orderItemObj?.orderItemId)}>
+          <Button variant="outline-danger" onClick={() => onDelete(orderItemObj?.orderItemId)}>
             Delete
           </Button>
         )}
