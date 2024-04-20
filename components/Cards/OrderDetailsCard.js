@@ -5,7 +5,7 @@ import { Card } from 'react-bootstrap';
 export default function OrderDetailsCard({ orderObj }) {
   return (
     <div>
-      <Card className="card">
+      <Card id="order-details-card" className="card">
         <Card.Body className="card-body">
           <Card.Title className="card-title">Customer Name: {orderObj.customerName}</Card.Title>
           <Card.Text className="card-text">Phone Number: {orderObj.phoneNumber}</Card.Text>

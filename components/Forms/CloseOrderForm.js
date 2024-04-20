@@ -49,7 +49,7 @@ export default function CloseOrderForm({ orderObj }) {
 
   return (
     <div>
-      <Card>
+      <Card style={{ textAlign: 'center', marginTop: '150px', width: '350px' }}>
         <Card.Body>
           <Card.Title>Order Close</Card.Title>
           <Card.Text className="subtotal"><strong>Order SubTotal: ${orderTotal.subTotal}.00</strong></Card.Text>

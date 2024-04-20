@@ -3,7 +3,7 @@ import { Card, Button } from 'react-bootstrap';
 
 export default function OrderItemCard({ orderItemObj, isOrderClosed, onDelete }) {
   return (
-    <Card className="orderitem-card">
+    <Card id="orderitemcard" className="text-center" style={{ width: '275px' }}>
       <Card.Body>
         <Card.Title>{orderItemObj.name}</Card.Title>
         <Card.Text>Price: ${orderItemObj.price.toFixed(2)}</Card.Text>
